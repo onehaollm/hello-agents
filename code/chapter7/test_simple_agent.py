@@ -3,13 +3,19 @@ from dotenv import load_dotenv
 from hello_agents import HelloAgentsLLM, ToolRegistry
 from hello_agents.tools import CalculatorTool
 from my_simple_agent import MySimpleAgent
-
+import os
 # 加载环境变量
 load_dotenv()
 
 # 创建LLM实例
 llm = HelloAgentsLLM()
 
+llm = HelloAgentsLLM(
+    model=os.getenv("LLM_MODEL_ID", "gpt-4o-mini"),
+    api_key=os.getenv("LLM_API_KEY"),
+    base_url=os.getenv("LLM_BASE_URL", "https://api.openai.com/v1"),
+    temperature=0.7
+)
 # 测试1：基础对话Agent（无工具）
 print("=== 测试1：基础对话 ===")
 basic_agent = MySimpleAgent(
